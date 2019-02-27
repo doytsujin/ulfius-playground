@@ -165,7 +165,7 @@ int main(void) {
     u_map_put(instance.default_headers, "Access-Control-Allow-Origin", "*");
 
     // Endpoint list declaration
-    ulfius_add_endpoint_by_val(&instance, "GET", "/hw", NULL, 0, &callback_hello_world, NULL);
+    ulfius_add_endpoint_by_val(&instance, "GET", "/hello_world", NULL, 0, &callback_hello_world, NULL);
     ulfius_add_endpoint_by_val(&instance, "GET", "/count", NULL, 0, &callback_count, NULL);
     ulfius_add_endpoint_by_val(&instance, "GET", "/health", NULL, 0, &callback_health, NULL);
     ulfius_add_endpoint_by_val(&instance, "GET", "/metrics", NULL, 0, &callback_metrics, NULL);
