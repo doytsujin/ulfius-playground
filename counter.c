@@ -18,12 +18,11 @@ redisContext *redisConn(){
     if (c == NULL || c->err) {
         if (c) {
             y_log_message(Y_LOG_LEVEL_ERROR, "Error: %s", c->errstr);
-            redisFree(c);
-            return (redisContext *)NULL;
         } else {
             y_log_message(Y_LOG_LEVEL_ERROR, "Connection error: can't allocate redis context" );
-            return (redisContext *)NULL;
         }
+	redisFree(c);
+    	return (redisContext *)NULL;
     }
 
     reply = redisCommand(c,"PING");
@@ -99,7 +98,6 @@ int callback_count (const struct _u_request * request, struct _u_response * resp
 
     return U_CALLBACK_CONTINUE;
 }
-
 
 
 int callback_metrics (const struct _u_request * request, struct _u_response * response, void * user_data) {
