@@ -1,7 +1,6 @@
 #include <ulfius.h>
 #include <hiredis/hiredis.h>
 
-long int local_hw = 0;
 long int local_count = 0;
 long int local_ping = 0;
 
@@ -45,7 +44,8 @@ redisContext *redisConn(){
 
 // our default - better than a blank page
 int callback_hello_world (const struct _u_request * request, struct _u_response * response, void * user_data) {
-  local_hw++;
+  if ( getenv("DEBUG") )
+    y_log_message(Y_LOG_LEVEL_DEBUG, "serving hello_world");
   ulfius_set_string_body_response(response, 200, "Hello World!");
   return U_CALLBACK_CONTINUE;
 }
@@ -62,6 +62,8 @@ int callback_health (const struct _u_request * request, struct _u_response * res
     }
 
     local_ping++;
+    if ( getenv("DEBUG") )
+      y_log_message(Y_LOG_LEVEL_DEBUG, "serving health");
     ulfius_set_string_body_response(response, 200, "OK");
 
     redisFree(c);
@@ -95,6 +97,8 @@ int callback_count (const struct _u_request * request, struct _u_response * resp
 		y_log_message(Y_LOG_LEVEL_DEBUG, "INCR: %lld", reply->integer);
 
         response_message = msprintf("%lld", reply->integer);
+        if ( getenv("DEBUG") )
+          y_log_message(Y_LOG_LEVEL_DEBUG, "serving count");
         ulfius_set_string_body_response(response, 200, response_message);
         o_free(response_message);
 
@@ -128,11 +132,10 @@ int callback_metrics (const struct _u_request * request, struct _u_response * re
         y_log_message(Y_LOG_LEVEL_ERROR, "Error collecting metrics : %s", reply->str);
         ulfius_set_string_body_response(response, 429, "BAD");
     } else {
+        response_message = msprintf("global_count %s\nlocal_count %lld\nlocal_ping %lld",
+                reply->str, local_count, local_ping);
         if ( getenv("DEBUG") )
             y_log_message(Y_LOG_LEVEL_DEBUG, "serving metrics");
-
-        response_message = msprintf("global_count %s\nlocal_hw %lld\nlocal_count %lld\nlocal_ping %lld",
-                reply->str, local_hw, local_count, local_ping);
         ulfius_set_string_body_response(response, 200, response_message);
         o_free(response_message);
     }
@@ -165,13 +168,13 @@ int main(void) {
     u_map_put(instance.default_headers, "Access-Control-Allow-Origin", "*");
 
     // Endpoint list declaration
-    ulfius_add_endpoint_by_val(&instance, "GET", "/hello_world", NULL, 0, &callback_hello_world, NULL);
+    ulfius_add_endpoint_by_val(&instance, "GET", "/", NULL, 0, &callback_hello_world, NULL);
     ulfius_add_endpoint_by_val(&instance, "GET", "/count", NULL, 0, &callback_count, NULL);
     ulfius_add_endpoint_by_val(&instance, "GET", "/health", NULL, 0, &callback_health, NULL);
     ulfius_add_endpoint_by_val(&instance, "GET", "/metrics", NULL, 0, &callback_metrics, NULL);
 
     // default_endpoint declaration
-    ulfius_set_default_endpoint(&instance, &callback_hello_world, NULL);
+    //ulfius_set_default_endpoint(&instance, &callback_hello_world, NULL);
 
     // Start the framework
     if (ulfius_start_framework(&instance) == U_OK) {
