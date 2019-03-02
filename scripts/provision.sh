@@ -7,7 +7,7 @@ pushd deps/
 
 #use latest cmake
 CMAKE=3.10.2
-[[ `cmake --version` =~ "${CMAKE}" ]] || {
+[[ `cmake --version 2>/dev/null` =~ "${CMAKE}" ]] || {
   wget -q https://github.com/Kitware/CMake/releases/download/v${CMAKE}/cmake-${CMAKE}-Linux-x86_64.sh
   sudo bash ./cmake-${CMAKE}-Linux-x86_64.sh --skip-license --prefix=/usr/local
   rm cmake-${CMAKE}-Linux-x86_64.sh
