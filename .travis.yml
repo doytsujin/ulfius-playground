@@ -8,7 +8,6 @@ addons:
   apt:
     packages:
     - git
-    - curl
     - wget
 install:
 - sudo scripts/provision.sh
