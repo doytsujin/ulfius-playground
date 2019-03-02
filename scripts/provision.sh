@@ -32,7 +32,7 @@ CMAKE=3.10.2
     sudo rm curl-7.52.1.tar.gz
   }
   pushd curl-7.52.1
-  ./configure --enable-static --host=${CROSS_TRIPLE} --target=${CROSS_TRIPLE} --program-prefix=local-
+  [ -f Makefile ] || ./configure --enable-static --host=${CROSS_TRIPLE} --target=${CROSS_TRIPLE} --program-prefix=local-
   make
   sudo make install
   popd
@@ -60,8 +60,7 @@ CMAKE=3.10.2
   }
 
   pushd libmicrohttpd-0.9.63
-  ./configure --host=$CROSS_TRIPLE --target=$CROSS_TRIPLE --disable-dependency-tracking --disable-doc --disable-examples --enable-https=no --disable-dauth --disable-httpupgrade 
-  make clean
+  [ -f Makefile ] || ./configure --host=$CROSS_TRIPLE --target=$CROSS_TRIPLE --disable-dependency-tracking --disable-doc --disable-examples --enable-https=no --disable-dauth --disable-httpupgrade 
   make
   sudo make install
   popd
@@ -76,7 +75,7 @@ CMAKE=3.10.2
   }
   mkdir -p orcania-master/build
   pushd orcania-master/build
-  cmake .. -DBUILD_STATIC=on -DWITH_JOURNALD=off -DWITH_GNUTLS=off
+  [ -f Makefile ] || cmake .. -DBUILD_STATIC=on -DWITH_JOURNALD=off -DWITH_GNUTLS=off
   make GNUTLSFLAG=1
   sudo make install
   popd
@@ -91,7 +90,7 @@ CMAKE=3.10.2
   }
   mkdir -p yder-master/build
   pushd yder-master/build
-  cmake .. -DBUILD_STATIC=on -DWITH_JOURNALD=off -DWITH_GNUTLS=off
+  [ -f Makefile ] || cmake .. -DBUILD_STATIC=on -DWITH_JOURNALD=off -DWITH_GNUTLS=off
   make GNUTLSFLAG=1
   sudo make install
   popd
@@ -106,7 +105,7 @@ CMAKE=3.10.2
   }
   mkdir -p ulfius-master/build
   pushd ulfius-master/build
-  cmake .. -DBUILD_STATIC=on -DWITH_JOURNALD=off -DWITH_GNUTLS=off
+  [ -f Makefile ] || cmake .. -DBUILD_STATIC=on -DWITH_JOURNALD=off -DWITH_GNUTLS=off
   make GNUTLSFLAG=1
   sudo make install
   popd
