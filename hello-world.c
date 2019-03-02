@@ -8,22 +8,24 @@ int callback_hello_world (const struct _u_request * request, struct _u_response 
   return U_CALLBACK_CONTINUE;
 }
 
-
 // main function
 int main(void) {
 
-    // check variables or set defaults
-    const int port = ( getenv("PORT") == NULL || atoi(getenv("PORT")) == 0) ? 8080 : atoi(getenv("PORT")) ;
+  // check variables or set defaults
+  const int port = (getenv("PORT") == NULL || atoi(getenv("PORT")) == 0)
+                       ? 8080
+                       : atoi(getenv("PORT"));
 
-    struct _u_instance instance;
+  struct _u_instance instance;
 
-    // initialize logs
-    y_init_logs("test", Y_LOG_MODE_CONSOLE, Y_LOG_LEVEL_DEBUG, NULL, "Starting test");
+  // initialize logs
+  y_init_logs("test", Y_LOG_MODE_CONSOLE, Y_LOG_LEVEL_DEBUG, NULL,
+              "Starting test");
 
-    // initialize instance with the port number
-    if (ulfius_init_instance(&instance, port, NULL, NULL) != U_OK) {
-        y_log_message(Y_LOG_LEVEL_ERROR, "Error ulfius_init_instance, abort");
-        return(1);
+  // initialize instance with the port number
+  if (ulfius_init_instance(&instance, port, NULL, NULL) != U_OK) {
+    y_log_message(Y_LOG_LEVEL_ERROR, "Error ulfius_init_instance, abort");
+    return (1);
     }
 
     u_map_put(instance.default_headers, "Access-Control-Allow-Origin", "*");
