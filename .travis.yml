@@ -13,4 +13,6 @@ addons:
 install:
 - sudo scripts/provision.sh
 script:
-- exit 0
+- make
+- ls -al bin/
+- ldd bin/*-static
