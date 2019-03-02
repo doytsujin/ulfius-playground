@@ -2,7 +2,6 @@ language: c
 dist: xenial
 sudo: required
 cache:
-- apt
   directories:
     - /usr/local/lib
     - /usr/local/include
