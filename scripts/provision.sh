@@ -32,7 +32,7 @@ CMAKE=3.10.2
     sudo rm curl-7.52.1.tar.gz
   }
   pushd curl-7.52.1
-  ./configure --enable-static --host=${CROSS_TRIPLE} --target=${CROSS_TRIPLE}
+  ./configure --enable-static --host=${CROSS_TRIPLE} --target=${CROSS_TRIPLE} --program-prefix=local-
   make
   sudo make install
   popd

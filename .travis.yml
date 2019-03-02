@@ -14,4 +14,3 @@ install:
 script:
 - make
 - ls -al bin/
-- ldd bin/*-static
