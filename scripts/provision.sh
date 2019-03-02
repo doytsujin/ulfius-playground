@@ -26,12 +26,12 @@ CMAKE=3.10.2
 }
 
 [ -f /usr/local/lib/libcurl.a ] || {
-  [ -d /usr/src/curl-7.52.1 ] || {
+  [ -d curl-7.52.1 ] || {
     sudo wget -q https://curl.haxx.se/download/curl-7.52.1.tar.gz 
-    sudo tar zxvf curl-7.52.1.tar.gz -C /usr/src
+    sudo tar zxvf curl-7.52.1.tar.gz
     sudo rm curl-7.52.1.tar.gz
   }
-  pushd /usr/src/curl-7.52.1
+  pushd curl-7.52.1
   ./configure --enable-static --host=${CROSS_TRIPLE} --target=${CROSS_TRIPLE}
   make
   sudo make install
