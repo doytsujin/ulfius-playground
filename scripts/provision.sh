@@ -10,18 +10,19 @@ CMAKE=3.10.2
   rm cmake-${CMAKE}-Linux-x86_64.sh
 }
 
-mkdir -p lib/
-pushd lib/
+mkdir -p deps/
+pushd deps/
 
 [ -f /usr/local/lib/libhiredis.a ] || {
-  wget -q https://github.com/redis/hiredis/archive/master.tar.gz
-  tar zxvf master.tar.gz
-  rm master.tar.gz
+  [ -d hiredis-master ] || {
+    wget -q https://github.com/redis/hiredis/archive/master.tar.gz
+    tar zxvf master.tar.gz
+    rm master.tar.gz
+  }
   pushd hiredis-master
   make static
   sudo make install
   popd
-  rm -fr hiredis
 }
 
 [ -f /usr/local/lib/libcurl.a ] || {
@@ -38,18 +39,16 @@ pushd lib/
 }
 
 [ -f /usr/local/lib/libjansson.a ] || {
-  [ -d jansson ] || {
+  [ -d jansson-master ] || {
     wget -q https://github.com/akheron/jansson/archive/master.tar.gz
     tar zxvf master.tar.gz
     rm master.tar.gz
-    pushd jansson-master
-    cmake . -DJANSSON_BUILD_DOCS=OFF
-    make
-    sudo make install
   }
-
+  pushd jansson-master
+  cmake . -DJANSSON_BUILD_DOCS=OFF
+  make
+  sudo make install
   popd
-  rm -fr jansson 
 }
 
 [ -f /usr/local/lib/libmicrohttpd.a ] || {
@@ -66,12 +65,11 @@ pushd lib/
   make
   sudo make install
   popd
-  rm -fr libmicrohttpd-0.9.63
 }
 
 
 [ -f /usr/local/lib/liborcania.a ] || {
-  [ -d orcania ] || {
+  [ -d orcania-master ] || {
     wget -q https://github.com/babelouest/orcania/archive/master.tar.gz
     tar zxvf master.tar.gz
     rm master.tar.gz
@@ -82,12 +80,11 @@ pushd lib/
   make GNUTLSFLAG=1
   sudo make install
   popd
-  rm -fr orcania
 }
 
 
 [ -f /usr/local/lib/libyder.a ] || {
-  [ -d yder ] || {
+  [ -d yder-master ] || {
     wget -q https://github.com/babelouest/yder/archive/master.tar.gz
     tar zxvf master.tar.gz
     rm master.tar.gz
@@ -98,12 +95,11 @@ pushd lib/
   make GNUTLSFLAG=1
   sudo make install
   popd
-  rm -fr yder
 }
 
 
 [ -f /usr/local/lib/libulfius.a ] || {
-  [ -d ulfius ] || {
+  [ -d ulfius-master ] || {
     wget -q https://github.com/babelouest/ulfius/archive/master.tar.gz
     tar zxvf master.tar.gz
     rm master.tar.gz
@@ -114,8 +110,6 @@ pushd lib/
   make GNUTLSFLAG=1
   sudo make install
   popd
-  rm -fr ulfius
 }
 
-popd # exit lib/
-rm -fr lib/
+popd # exit deps/

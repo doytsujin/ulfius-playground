@@ -3,8 +3,7 @@ dist: xenial
 sudo: required
 cache:
   directories:
-    - /usr/local/lib
-    - /usr/local/include
+    - deps/
 addons:
   apt:
     packages:
