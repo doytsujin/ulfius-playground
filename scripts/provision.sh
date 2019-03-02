@@ -2,6 +2,9 @@
 
 CROSS_TRIPLE=${CROSS_TRIPLE:-x86_64-linux-gnu}
 
+mkdir -p deps/
+pushd deps/
+
 #use latest cmake
 CMAKE=3.10.2
 [[ `cmake --version` =~ "${CMAKE}" ]] || {
@@ -9,9 +12,6 @@ CMAKE=3.10.2
   sudo bash ./cmake-${CMAKE}-Linux-x86_64.sh --skip-license --prefix=/usr/local
   rm cmake-${CMAKE}-Linux-x86_64.sh
 }
-
-mkdir -p deps/
-pushd deps/
 
 [ -f /usr/local/lib/libhiredis.a ] || {
   [ -d hiredis-master ] || {

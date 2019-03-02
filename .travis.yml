@@ -11,6 +11,6 @@ addons:
     - curl
     - wget
 install:
-- sudo bash scripts/provision.sh
+- sudo scripts/provision.sh
 script:
 - exit 0
